@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Face Authen WEB</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="~/Content/bootstrap-4.5.3/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #D0D0D0;
+        }
+
+        .bg-body {
+        }
+
+        .half-width {
+            width: 50%;
+        }
+
+        .buttons-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .result-section {
+            background-color: #FFFFFF;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .container_sdk {
+            display: flex !important;
+        }
+    </style>
+</head>
+<body style="overflow:auto; max-height:100vh">
+    <div class="bg-body">
+        <div class="container my-4" ng-app="FaceAuthen" ng-controller="FaceAuthenCtr">
+            <!-- Domain -->
+            <div class="buttons-row" ng-show="viewScreen==1">
+                <button ng-if="retry" ng-click="getNonce()" class="btn btn-primary mx-2">Thử lại</button>
+            </div>
+            <div ng-show="viewScreen==2" style="height: 100vh; display: flex; flex-direction: column;">
+                <div class="container" style="max-height: 100%; overflow-y: auto; padding: 15px; background-color: #f9f9f9; border: 1px solid #ddd; ">
+                    <!-- Row for the two images -->
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <img src="data:image/png;base64,{{firstFace}}" alt="First Face" class="img-fluid half-width">
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <img src="data:image/png;base64,{{lastFace}}" alt="Last Face" class="img-fluid half-width">
+                        </div>
+                    </div>
+
+
+                    <!-- Result text section -->
+                    <div class="result-section">
+                        <pre>
+                        <code>
+                            {{result | json}}
+                        </code>
+                    </pre>
+                    </div>
+                    <div class="buttons-row">
+                        <button ng-click="return()" class="btn btn-primary mx-2">Trở lại</button>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="viewScreen==0">
+                <div class="mb-3">
+                    <label for="domain" class="form-label">Domain</label>
+                    <input type="text" class="form-control" id="domain" ng-model="domain">
+                </div>
+
+                <!-- Authen EndPoint -->
+                <div class="mb-3">
+                    <label for="authenEndPoint" class="form-label">Authen EndPoint</label>
+                    <input type="text" class="form-control" id="authenEndPoint" ng-model="authenEndpoint">
+                </div>
+
+                <!-- Access Token EndPoint -->
+                <div class="mb-3">
+                    <label for="accesstokenEndPoint" class="form-label">Access Token EndPoint</label>
+                    <input type="text" class="form-control" id="accesstokenEndPoint" ng-model="accessTokenEndpoint">
+                </div>
+
+                <!-- Max Retry -->
+                <div class="mb-3">
+                    <label for="maxRetry" class="form-label">Max Retry</label>
+                    <input type="number" class="form-control" id="maxRetry" value="3">
+                </div>
+
+                <!-- CCCD -->
+                <div class="mb-3">
+                    <label for="inputCCCD" class="form-label">CCCD</label>
+                    <input class="form-control" id="inputCCCD" ng-model="personID">
+                </div>
+
+                <!-- CCCD -->
+                <div class="mb-3">
+                    <label for="inputCCCD" class="form-label">SDK version: {{version}}</label>
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputCCCD" class="form-label">Platform: {{isMobile ? "Mobile" : "Desktop"}}</label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="button" class="btn btn-primary w-100 mb-3" ng-click="getNonce()">Xác thực</button>
+            </div>
+            <div class="container container_sdk" ng-show="viewScreen==1" id="sdk-container">
+            </div>
+        </div>
+    </div>
+    
+    <script src="~/Content/bootstrap-4.5.3/js/bootstrap.min.js"></script>
+    <script src="~/Content/angular-1.8.2/angular.min.js"></script>
+    <script src="~/Content/sweetalert2/sweetalert2.all.min.js"></script>
+    <script type="module" src="~/Scripts/faceauthen.js"></script>
+</body>
+</html>
