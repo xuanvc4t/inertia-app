@@ -19,7 +19,7 @@ echo "==> Building frontend assets..."
 npm run build
 
 echo "==> Running migrations..."
-php artisan migrate --force
+php artisan migrate --force --no-interaction
 
 echo "==> Caching config..."
 php artisan config:cache
