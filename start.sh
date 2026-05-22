@@ -9,9 +9,6 @@ fi
 echo "==> Generating app key..."
 php artisan key:generate --force
 
-echo "==> Running migrations..."
-php artisan migrate --force --no-interaction
-
 echo "==> Caching config..."
 php artisan config:cache
 php artisan route:cache
