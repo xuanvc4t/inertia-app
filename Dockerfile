@@ -13,8 +13,12 @@ WORKDIR /var/www
 
 COPY . .
 
+# Build phase (no DB needed)
 RUN chmod +x build.sh && ./build.sh
+
+RUN chmod +x start.sh
 
 EXPOSE 8000
 
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Start phase (DB env vars available here)
+CMD ["./start.sh"]
